@@ -1,4 +1,6 @@
-package com.br.fiap.tech_challenge_lanchonete.db.entity;
+package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity;
+
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Customer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -6,9 +8,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="customers")
+@NoArgsConstructor
+@AllArgsConstructor
 public class CustomersEntity {
 	
 	@Id
@@ -20,14 +26,6 @@ public class CustomersEntity {
 	
 	@Column(name = "email")
 	private String email;
-
-	public CustomersEntity(String name, String email) {
-		this.name = name;
-		this.email = email;
-	}
-
-	public CustomersEntity() {
-	}
 
 
 	public String getName() {
@@ -44,6 +42,10 @@ public class CustomersEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public Customer toModel() {
+		return new Customer(name, email);
 	}
 	
 	
