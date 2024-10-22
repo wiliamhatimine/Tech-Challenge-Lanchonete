@@ -3,6 +3,7 @@ package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 import org.springframework.stereotype.Component;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.ProductsEntity;
+import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository.ProductsRepository;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.ProductPort;
 

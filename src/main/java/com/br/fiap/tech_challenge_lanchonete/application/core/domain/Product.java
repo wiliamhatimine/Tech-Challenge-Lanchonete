@@ -1,8 +1,7 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.domain;
 
 import java.math.BigDecimal;
-
-import org.springframework.web.multipart.MultipartFile;
+import java.util.Objects;
 
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.CategorieEnums;
 
@@ -14,6 +13,9 @@ public class Product {
 	private BigDecimal price;
 	private String description;
 	private byte image;
+	
+	public Product() {
+	}
 	
 	public Product(Long id, String name, CategorieEnums categorie, BigDecimal price, String description, byte image) {
 		this.id = id;
@@ -61,6 +63,23 @@ public class Product {
 	}
 	public void setImage(byte image) {
 		this.image = image;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return Objects.equals(id, other.id);
 	}
 	
 }

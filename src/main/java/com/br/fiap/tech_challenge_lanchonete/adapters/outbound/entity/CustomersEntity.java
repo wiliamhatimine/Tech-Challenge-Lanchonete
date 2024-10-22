@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class CustomersEntity {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private Long idCustomer;
 	
 	@Column(name = "name")
