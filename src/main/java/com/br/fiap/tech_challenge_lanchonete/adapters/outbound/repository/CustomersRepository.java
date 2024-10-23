@@ -1,4 +1,4 @@
-package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
+package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

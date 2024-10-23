@@ -21,7 +21,7 @@ public class CustomersController {
 	
 	Logger logger = LoggerFactory.getLogger(CustomersController.class);
 	
-	@PostMapping("/cadastrar")
+	@PostMapping("/create")
 	public ResponseEntity<CustomersEntity> insertCustomer(@RequestBody CustomersEntity customer){
 		try {
 			customersAdapter.save(customer.getName(), customer.getEmail());

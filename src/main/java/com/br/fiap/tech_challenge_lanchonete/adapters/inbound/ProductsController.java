@@ -3,6 +3,7 @@ package com.br.fiap.tech_challenge_lanchonete.adapters.inbound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.ProductsAdapter;
-import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.ProductsEntity;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 
 @RestController
@@ -26,30 +26,32 @@ public class ProductsController {
 	Logger logger = LoggerFactory.getLogger(ProductsController.class);
 	
 	@PostMapping("/create")
-	public ResponseEntity<ProductsEntity> createProduct(@RequestBody Product product){
+	public ResponseEntity<Product> createProduct(@RequestBody Product product){
+		Product productDetail = new Product();
 		try {
-			productsAdapter.save(product);
+			productDetail = productsAdapter.save(product);
 		}catch(Exception e) {
 			logger.error("Erro ao cadastrar");
 			throw e;
 		}
-		return ResponseEntity.status(201).build();
+		return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(productDetail);
 	}
 	
 	@PutMapping("/update")
-	public ResponseEntity<ProductsEntity> editProduct(@RequestBody Product product){
+	public ResponseEntity<Product> editProduct(@RequestBody Product product){
+		Product productResponse = new Product();
 		try {
-			productsAdapter.edit(product);
+			productResponse = productsAdapter.edit(product);
 		}catch(Exception e) {
 			logger.error("Erro ao cadastrar");
 			throw e;
 		}
-		return ResponseEntity.status(200).build();
+		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(productResponse);
 	}
 	
 	
 	@DeleteMapping("/delete/{productId}")
-	public ResponseEntity<ProductsEntity> deleteProduct(@PathVariable("productId") Long productId){
+	public ResponseEntity<Product> deleteProduct(@PathVariable("productId") Long productId){
 		try {
 			productsAdapter.delete(productId);
 		}catch(Exception e) {
