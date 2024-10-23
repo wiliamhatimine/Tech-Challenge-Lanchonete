@@ -1,22 +1,22 @@
 
 services:
-  # springboot-app:
-  #   image: 'spring-boot-lanchonete:latest'
-  #   depends_on:
-  #     - postgres-db
-  #   build: .
-  #   links:
-  #     - postgres-db
-  #   container_name: springboot-app
-  #   environment:
-  #     - POSTGRES_USER=admin
-  #     - POSTGRES_PASSWORD=1234
-  #     - POSTGRES_HOST=jdbc:postgresql://postgres-db:5432/lanchonete
-  #   restart: on-failure
-  #   ports:
-  #     - 8080:8080
-  #   networks:
-  #     - springpostgres
+  springboot-app:
+    image: 'spring-boot-lanchonete:latest'
+    depends_on:
+      - postgres-db
+    build: .
+    links:
+      - postgres-db
+    container_name: springboot-app
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_HOST=jdbc:postgresql://postgres-db:5432/lanchonete
+    restart: on-failure
+    ports:
+      - 8080:8080
+    networks:
+      - springpostgres
   postgres-db:
     image: postgres:15-alpine
     container_name: postgres-db
