@@ -1,26 +1,24 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.domain;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 public class Order {
 
 	private Long idOrder;
 	private Long customer;
-	private BigDecimal total;
-	private Map<Product, Integer> products;
+	private Double total;
+	private List<ProductOrder> products;
 	
 	public Order() {}
 	
-	public Order(Long idOrder, Long customer, BigDecimal total, Map<Product, Integer> products) {
+ 	public Order(Long idOrder, Long customer, Double total, List<ProductOrder> products) {
 		super();
 		this.idOrder = idOrder;
 		this.customer = customer;
 		this.total = total;
 		this.products = products;
 	}
-	
+
 	public Long getIdOrder() {
 		return idOrder;
 	}
@@ -33,16 +31,17 @@ public class Order {
 	public void setCustomer(Long customer) {
 		this.customer = customer;
 	}
-	public BigDecimal getTotal() {
+	public Double getTotal() {
 		return total;
 	}
-	public void setTotal(BigDecimal total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
-	public Map<Product, Integer> getProducts() {
+	
+	public List<ProductOrder> getProducts() {
 		return products;
 	}
-	public void setProducts(Map<Product, Integer> products) {
+	public void setProducts(List<ProductOrder> products) {
 		this.products = products;
 	}
 }

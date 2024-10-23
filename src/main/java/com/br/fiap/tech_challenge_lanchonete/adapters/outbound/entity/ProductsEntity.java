@@ -34,13 +34,27 @@ public class ProductsEntity {
 	private CategorieEnums categorie;
 	
 	@Column(name = "price")
-	private BigDecimal price;
+	private Double price;
 	
 	@Column(name = "description")
 	private String description;
 	
 	@Column(name = "image")
 	private byte image;
+
+	public ProductsEntity() {
+	}
+
+	public ProductsEntity(Long idProduct, String name, CategorieEnums categorie, Double price, String description,
+			byte image) {
+		super();
+		this.idProduct = idProduct;
+		this.name = name;
+		this.categorie = categorie;
+		this.price = price;
+		this.description = description;
+		this.image = image;
+	}
 
 	public Long getIdProduct() {
 		return idProduct;
@@ -66,11 +80,11 @@ public class ProductsEntity {
 		this.categorie = categorie;
 	}
 
-	public BigDecimal getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 

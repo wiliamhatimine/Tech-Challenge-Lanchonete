@@ -1,24 +1,21 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.domain;
 
-import java.math.BigDecimal;
-import java.util.Objects;
-
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.CategorieEnums;
 
 public class Product {
 
-	private Long id;
+	private Long idProduct;
 	private String name;
 	private CategorieEnums categorie;
-	private BigDecimal price;
+	private Double price;
 	private String description;
 	private byte image;
 	
 	public Product() {
 	}
 	
-	public Product(Long id, String name, CategorieEnums categorie, BigDecimal price, String description, byte image) {
-		this.id = id;
+	public Product(Long idProduct, String name, CategorieEnums categorie, Double price, String description, byte image) {
+		this.idProduct = idProduct;
 		this.name = name;
 		this.categorie = categorie;
 		this.price = price;
@@ -26,12 +23,12 @@ public class Product {
 		this.image = image;
 	}
 	
-	public Long getId() {
-		return id;
+	public Long getIdProduct() {
+		return idProduct;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdProduct(Long idProduct) {
+		this.idProduct = idProduct;
 	}
 
 	public String getName() {
@@ -46,10 +43,10 @@ public class Product {
 	public void setCategorie(CategorieEnums categorie) {
 		this.categorie = categorie;
 	}
-	public BigDecimal getPrice() {
+	public Double getPrice() {
 		return price;
 	}
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 	public String getDescription() {
@@ -64,22 +61,4 @@ public class Product {
 	public void setImage(byte image) {
 		this.image = image;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
-	}
-	
 }

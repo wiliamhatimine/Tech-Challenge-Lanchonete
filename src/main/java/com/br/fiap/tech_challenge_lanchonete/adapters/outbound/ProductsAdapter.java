@@ -30,7 +30,7 @@ public class ProductsAdapter implements ProductPort {
 	@Override
 	public Product edit(Product product) {
 		ProductsEntity productEntity = new ProductsEntity();
-		productEntity.setIdProduct(product.getId());
+		productEntity.setIdProduct(product.getIdProduct());
 		productEntity.setName(product.getName());
 		productEntity.setCategorie(product.getCategorie());
 		productEntity.setPrice(product.getPrice());

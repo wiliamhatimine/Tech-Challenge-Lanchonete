@@ -1,7 +1,6 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.stereotype.Component;
@@ -9,12 +8,14 @@ import org.springframework.stereotype.Component;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.OrderEntity;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository.OrderRepository;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Order;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.OrderPort;
 
 @Component
 public class OrdersAdapter implements OrderPort {
 
+	private Double total;
+	
 	private OrderRepository orderRepository;
 	
 	public OrdersAdapter(OrderRepository orderRepository) {
@@ -22,24 +23,28 @@ public class OrdersAdapter implements OrderPort {
 	}
 
 	@Override
-	public Order getOrder(String idOrder) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Order saveOrder(Long idCustomer, Map<Product, Integer> products) {
+	public Order saveOrder(Long idCustomer, List<ProductOrder> products) {
 		Long customer = Objects.nonNull(idCustomer) ? idCustomer : null;
+		total = 0.0;
 		OrderEntity orderEntity = new OrderEntity();
 		orderEntity.setCustomer(customer);
-		orderEntity.setProduct(products);
-		return orderRepository.save(orderEntity).getOrder(products);
+		orderEntity.setProducts(products);
+		products.forEach(product -> {
+			int amount = product.getAmount();
+			if(amount > 1) {
+				total = total + (product.getPrice()*amount);
+			}else {
+				total = total + product.getPrice();
+			}
+		});
+		orderEntity.setTotal(total);
+		return orderRepository.save(orderEntity).getOrder(products, total);
 	}
 
 	@Override
 	public List<Order> getOrders() {
 		return orderRepository.findAll().stream().map(order ->{
-			return order.getOrder(order.getProducts());
+			return order.toModel(order);
 		}).toList();
 	}
 }

@@ -1,18 +1,14 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.converter.ProductConverter;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Order;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,12 +28,14 @@ public class OrderEntity {
 	
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name="products", columnDefinition = "jsonb")
-	private Map<Product, Integer> products;
+	private List<ProductOrder> products;
 
+	private Double total = 0.0;
+	
 	public OrderEntity() {
 	}
 
-	public OrderEntity(Long idOrder, Long customer, Map<Product, Integer> products) {
+	public OrderEntity(Long idOrder, Long customer, List<ProductOrder> products) {
 		this.idOrder = idOrder;
 		this.customer = customer;
 		this.products = products;
@@ -59,24 +57,29 @@ public class OrderEntity {
 		this.customer = customer;
 	}
 
-	public Map<Product, Integer> getProducts() {
+	public List<ProductOrder> getProducts() {
 		return products;
 	}
 
-	public void setProduct(Map<Product, Integer> products) {
+	public void setProducts(List<ProductOrder> products) {
 		this.products = products;
 	}
 	
-	public Order getOrder(Map<Product, Integer> products) {
-		BigDecimal total = null;
-			products.forEach((keyProduct, amount) -> {
-				if(amount > 1) {
-					total.add(keyProduct.getPrice().multiply(BigDecimal.valueOf(amount)));
-				}else {
-					total.add(keyProduct.getPrice());
-				}
-			});
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+
+
+	public Order getOrder(List<ProductOrder> products, Double total) {
 		return new Order(idOrder, customer, total, products);
+	}
+	
+	public Order toModel(OrderEntity order) {
+		return new Order(order.getIdOrder(), order.getCustomer(), order.getTotal(), order.getProducts());
 	}
 	
 }
