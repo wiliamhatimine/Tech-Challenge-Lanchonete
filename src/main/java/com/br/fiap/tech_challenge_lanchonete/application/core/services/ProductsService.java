@@ -1,5 +1,7 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.services;
 
+import java.util.List;
+
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.in.ManagerProductsUseCase;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.ProductPort;
@@ -25,6 +27,11 @@ public class ProductsService implements ManagerProductsUseCase{
 	@Override
 	public void delete(Long productId) {
 		productPort.delete(productId);
+	}
+
+	@Override
+	public List<Product> getProductByCate(String categorie) {
+		return productPort.productByCategorie(categorie);
 	}
 	
 	

@@ -1,10 +1,13 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.ProductsEntity;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository.ProductsRepository;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.CategorieEnums;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.ProductPort;
 
 @Component
@@ -42,6 +45,14 @@ public class ProductsAdapter implements ProductPort {
 	@Override
 	public void delete(Long productId) {
 		productsRepository.deleteById(productId);
+	}
+
+	@Override
+	public List<Product> productByCategorie(String categorie) {
+			List<ProductsEntity> listProducts = productsRepository.findByCategorie(CategorieEnums.valueOf(categorie));
+		return listProducts.stream().map(product ->{
+			return product.toModel();
+		}).toList();
 	}
 
 }
