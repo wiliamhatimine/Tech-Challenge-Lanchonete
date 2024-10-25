@@ -42,20 +42,6 @@ public class ProductsEntity {
 	@Column(name = "image")
 	private byte image;
 
-	public ProductsEntity() {
-	}
-
-	public ProductsEntity(Long idProduct, String name, CategorieEnums categorie, Double price, String description,
-			byte image) {
-		super();
-		this.idProduct = idProduct;
-		this.name = name;
-		this.categorie = categorie;
-		this.price = price;
-		this.description = description;
-		this.image = image;
-	}
-
 	public Long getIdProduct() {
 		return idProduct;
 	}
