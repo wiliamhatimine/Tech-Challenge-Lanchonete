@@ -1,7 +1,5 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity;
 
-import java.math.BigDecimal;
-
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.CategorieEnums;
 
