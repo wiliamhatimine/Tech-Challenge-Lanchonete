@@ -5,17 +5,16 @@ public class ProductOrder{
 	private Long idProduct;
 	private Double price;
 	private String name;
-	private int amount;
+	private int quantity;
 	
 	public ProductOrder() {
 	}
-	
-	public ProductOrder(Long idProduct, Double price, String name, int amount) {
+	public ProductOrder(Long idProduct, Double price, String name, int quantity) {
 		super();
 		this.idProduct = idProduct;
 		this.price = price;
 		this.name = name;
-		this.amount = amount;
+		this.quantity = quantity;
 	}
 	public Long getIdProduct() {
 		return idProduct;
@@ -35,13 +34,10 @@ public class ProductOrder{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getAmount() {
-		return amount;
+	public int getQuantity() {
+		return quantity;
 	}
-	public void setAmount(int amount) {
-		this.amount = amount;
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
-	
-	
-	
 }

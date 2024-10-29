@@ -1,8 +1,9 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums;
 
 public enum QueueEnums {
-	PREPARO("PREPARO"),
-	EM_PREPARO("EM_PREPARO"),
+	RECEBIDO("RECEBIDO"),
+	EM_PREPARACAO("EM_PREPARACAO"),
+	PRONTO("PRONTO"),
 	FINALIZADO("FINALIZADO");
 	
 	private String text;

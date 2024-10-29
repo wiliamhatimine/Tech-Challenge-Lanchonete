@@ -1,4 +1,4 @@
-package com.br.fiap.tech_challenge_lanchonete.application.core.domain.queue;
+package com.br.fiap.tech_challenge_lanchonete.application.core.domain;
 
 import java.util.List;
 
@@ -8,13 +8,13 @@ public class Queue {
 
 	private Long jobId;
 	private Long orderId;
-	private List<String> products;
+	private List<ProductOrder> products;
 	private QueueEnums status;
 	
 	public Queue() {
 	}
 	
-	public Queue(Long jobId, Long orderId, List<String> products, QueueEnums status) {
+	public Queue(Long jobId, Long orderId, List<ProductOrder> products, QueueEnums status) {
 		this.jobId = jobId;
 		this.orderId = orderId;
 		this.products = products;
@@ -33,10 +33,11 @@ public class Queue {
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
 	}
-	public List<String> getProducts() {
+	
+	public List<ProductOrder> getProducts() {
 		return products;
 	}
-	public void setProducts(List<String> products) {
+	public void setProducts(List<ProductOrder> products) {
 		this.products = products;
 	}
 	public QueueEnums getStatus() {

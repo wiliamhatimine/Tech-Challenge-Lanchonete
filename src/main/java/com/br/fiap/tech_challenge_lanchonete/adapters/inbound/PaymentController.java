@@ -14,10 +14,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.PaymentAdapter;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.QueueAdapter;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Payment;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.PaymentStatusEnums;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.queue.Queue;
 
-@RestController()
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
+@Tag(name = "Pagamento", description = "Controle de pagamentos")
+@RestController
 @RequestMapping("/payment/api/v1")
 public class PaymentController {
 
@@ -28,12 +35,18 @@ public class PaymentController {
 	@Autowired private QueueAdapter queueAdapter;
 	
 	@GetMapping("/get-payment/{idPayment}")
+	@ApiResponse(responseCode = "200", description = "Pagamento obtido com sucesso", content = { @Content(mediaType = "application/json",
+    schema = @Schema(implementation = Payment.class)) })
+	@Operation(summary = "Obter pedido pelo codigo do pedido")
 	public ResponseEntity<Payment> getPayment(@PathVariable("idPayment") Long idPayment){
 		Payment payment = paymentAdapter.getPayment(idPayment);
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(payment);
 	}
 	
 	@PutMapping("/pay-order/{idOrder}")
+	@ApiResponse(responseCode = "200", description = "Pagamento feito com sucesso", content = { @Content(mediaType = "application/json",
+	 schema = @Schema(implementation = Payment.class)) })
+	@Operation(summary = "Realizar pagamento pelo codigo do pedido")
 	public ResponseEntity<Payment> payOrder(@PathVariable("idOrder") Long idOrder){
 		Payment payment = paymentAdapter.changePaymentStatus(idOrder, PaymentStatusEnums.PAGO);
 		Queue queue = queueAdapter.checkOrderStatus(payment.getIdOrder());

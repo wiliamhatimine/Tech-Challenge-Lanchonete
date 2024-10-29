@@ -8,8 +8,9 @@ import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.OrderEntit
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.QueueEntity;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository.OrderRepository;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.repository.QueueRepository;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.QueueEnums;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.queue.Queue;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.QueuePort;
 
 @Component
@@ -26,21 +27,19 @@ public class QueueAdapter implements QueuePort {
 	@Override
 	public Long clientMakeOrder(Long orderId) {
 		OrderEntity orderEntity = orderRepository.findById(orderId).get();
-		List<String> listNames = orderEntity.getProducts().stream().map(product ->{
-			return product.getName();
-		}).toList();
+		List<ProductOrder> listNames = orderEntity.getProducts();
 		
 		QueueEntity queueEntity = new QueueEntity();
 		queueEntity.setIdOrder(orderId);
 		queueEntity.setProductsName(listNames);
-		queueEntity.setStatus(QueueEnums.PREPARO);
+		queueEntity.setStatus(QueueEnums.RECEBIDO);
 		return queueRepository.save(queueEntity).getJobId();
 	}
 
 	@Override
 	public void moveToPreparing(Long jobId) {
 		QueueEntity queueEntity = queueRepository.findById(jobId).get();
-		queueEntity.setStatus(QueueEnums.EM_PREPARO);
+		queueEntity.setStatus(QueueEnums.EM_PREPARACAO);
 		queueRepository.save(queueEntity);
 	}
 
@@ -57,15 +56,17 @@ public class QueueAdapter implements QueuePort {
 	}
 
 	@Override
-	public Boolean kitchenCompletedOrder(String jobId, Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void kitchenCompletedOrder(Long jobId) {
+		QueueEntity queueEntity = queueRepository.findById(jobId).get();
+		queueEntity.setStatus(QueueEnums.PRONTO);
+		queueRepository.save(queueEntity);
 	}
-
+	
 	@Override
-	public Boolean startOrderToPrepare(String jobId, Long orderId) {
-		// TODO Auto-generated method stub
-		return null;
+	public void orderWithdrawn(Long jobId) {
+		QueueEntity queueEntity = queueRepository.findById(jobId).get();
+		queueEntity.setStatus(QueueEnums.FINALIZADO);
+		queueRepository.save(queueEntity);
 	}
 
 }

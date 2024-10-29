@@ -46,7 +46,7 @@ public class ProductsAdapter implements ProductPort {
 	public void delete(Long productId) {
 		productsRepository.deleteById(productId);
 	}
-
+ 
 	@Override
 	public List<Product> productByCategorie(String categorie) {
 			List<ProductsEntity> listProducts = productsRepository.findByCategorie(CategorieEnums.valueOf(categorie));

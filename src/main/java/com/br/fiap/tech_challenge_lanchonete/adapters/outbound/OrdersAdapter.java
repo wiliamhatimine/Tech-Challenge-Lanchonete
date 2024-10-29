@@ -30,9 +30,9 @@ public class OrdersAdapter implements OrderPort {
 		orderEntity.setCustomer(customer);
 		orderEntity.setProducts(products);
 		products.forEach(product -> {
-			int amount = product.getAmount();
-			if(amount > 1) {
-				total = total + (product.getPrice()*amount);
+			int quantity = product.getQuantity();
+			if(quantity > 1) {
+				total = total + (product.getPrice()*quantity);
 			}else {
 				total = total + product.getPrice();
 			}

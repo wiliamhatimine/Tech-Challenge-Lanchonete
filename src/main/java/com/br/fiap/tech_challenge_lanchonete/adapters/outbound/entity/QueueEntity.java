@@ -5,8 +5,9 @@ import java.util.List;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.QueueEnums;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.queue.Queue;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +39,7 @@ public class QueueEntity {
 	
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name="payload", columnDefinition = "jsonb")
-	private List<String> productsName;
+	private List<ProductOrder> productsName;
 
 	public Long getJobId() {
 		return jobId;
@@ -64,11 +65,12 @@ public class QueueEntity {
 		this.status = status;
 	}
 
-	public List<String> getProductsName() {
+	
+	public List<ProductOrder> getProductsName() {
 		return productsName;
 	}
 
-	public void setProductsName(List<String> productsName) {
+	public void setProductsName(List<ProductOrder> productsName) {
 		this.productsName = productsName;
 	}
 	

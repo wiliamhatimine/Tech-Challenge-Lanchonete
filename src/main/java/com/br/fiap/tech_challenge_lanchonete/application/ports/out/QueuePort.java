@@ -2,7 +2,7 @@ package com.br.fiap.tech_challenge_lanchonete.application.ports.out;
 
 import java.util.List;
 
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.queue.Queue;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
 
 public interface QueuePort {
 	
@@ -10,7 +10,7 @@ public interface QueuePort {
 	void moveToPreparing(Long jobId);
 	Queue checkOrderStatus(Long idOrder);
 	List<Queue> listClientOrders();
-	Boolean kitchenCompletedOrder(String jobId, Long orderId);
-	Boolean startOrderToPrepare(String jobId, Long orderId);
+	void kitchenCompletedOrder(Long jobId);
+	void orderWithdrawn(Long jobId);
 	
 }
