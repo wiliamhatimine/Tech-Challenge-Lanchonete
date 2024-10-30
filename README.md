@@ -11,3 +11,9 @@ Executar o comando abaixo na raiz do projeto onde se encontra o arquivo docker-c
 ```
 docker-compose up
 ```
+
+###  Acessando o Swagger
+Link de acesso ao swagger
+```
+http://localhost:8080/swagger-ui/index.html
+```

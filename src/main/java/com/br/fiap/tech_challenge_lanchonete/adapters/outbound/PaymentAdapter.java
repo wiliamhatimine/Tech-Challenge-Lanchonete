@@ -24,9 +24,10 @@ public class PaymentAdapter implements PaymentPort{
 	}
 
 	@Override
-	public Payment createPayment(Long idOrder) {
+	public Payment createPayment(Long idOrder, Long idCustomer) {
 		PaymentEntity entity = new PaymentEntity();
 		entity.setIdOrder(idOrder);
+		entity.setIdCustomer(idCustomer);
 		entity.setUpdatedStatus(LocalDateTime.now());
 		entity.setStatus(PaymentStatusEnums.AGUARDANDO_PAGAMENTO);
 		return paymentRepository.save(entity).toModel();
@@ -41,12 +42,7 @@ public class PaymentAdapter implements PaymentPort{
 	}
 
 	@Override
-	public Payment getPaymentFromIdOrder(Long idOrder) {
-		return paymentRepository.findByIdOrder(idOrder).toModel();
-	}
-
-	@Override
-	public Payment getPayment(Long idPayment) {
-		return paymentRepository.findById(idPayment).get().toModel();
+	public Payment getPaymentByCustomerId(Long customerId) {
+		return paymentRepository.findById(customerId).get().toModel();
 	}
 }

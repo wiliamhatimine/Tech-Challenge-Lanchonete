@@ -17,16 +17,10 @@ public class CustomersAdapter implements CustomersPort{
 	}
 
 	@Override
-	public Customer save(String name, String email) {
-		CustomersEntity customersEntity = new CustomersEntity();
-		customersEntity.setName(name);
-		customersEntity.setEmail(email);
-		return customersRepository.save(customersEntity).toModel();
-	}
-
-	@Override
-	public String getCustomerId(String customerId) {
-		return customerId;
+	public Customer save(Customer customer) {
+		CustomersEntity customersEntity = new CustomersEntity(customer.getName(), customer.getEmail(), customer.getCpf());
+		customer.setIdCustomer(customersRepository.save(customersEntity).getIdCustomer());
+		return customer;
 	}
 
 }

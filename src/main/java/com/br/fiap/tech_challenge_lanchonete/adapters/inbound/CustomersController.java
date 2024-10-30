@@ -31,12 +31,12 @@ public class CustomersController {
 	Logger logger = LoggerFactory.getLogger(CustomersController.class);
 	
 	@PostMapping("/create")
-	@ApiResponse(responseCode = "200", description = "Cliente cadastrado com sucesso", content = { @Content(mediaType = "application/json",
+	@ApiResponse(responseCode = "201", description = "Cliente cadastrado com sucesso", content = { @Content(mediaType = "application/json",
 	          schema = @Schema(implementation = Customer.class)) })
 	@Operation(summary = "Cadastro de clientes")
 	public ResponseEntity<Customer> insertCustomer(@RequestBody Customer customer){
 		try {
-			customersAdapter.save(customer.getName(), customer.getEmail());
+			customersAdapter.save(customer);
 		}catch(Exception e){
 			logger.error("Ocorreu um erro ao cadastrar");
 			throw e;

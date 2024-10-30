@@ -23,8 +23,10 @@ import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.QueueAdapter;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Order;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.QueueEnums;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,17 +44,17 @@ public class OrderController {
 	@Autowired private QueueAdapter queueAdapter;
 	@Autowired private PaymentAdapter paymentAdapter;
 
-	@PostMapping("/create")
+	@PostMapping("/create/{idCustomer}")
 	@Operation(summary = "Criar pedido")
 	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso", content = { @Content(mediaType = "application/json",
 	 schema = @Schema(implementation = Order.class)) })
-	public ResponseEntity<Order> createOrder(@RequestParam(required = false) Long idCustomer,
+	public ResponseEntity<Order> createOrder(@PathVariable("idCustomer") Long idCustomer,
 			@RequestBody List<ProductOrder> products) {
 		Order order = new Order();
 		try {
 			order = ordersAdapter.saveOrder(Objects.nonNull(idCustomer) ? idCustomer : null, products);
 			queueAdapter.clientMakeOrder(order.getIdOrder());
-			paymentAdapter.createPayment(order.getIdOrder());
+			paymentAdapter.createPayment(order.getIdOrder(), idCustomer);
 			logger.info("Pedido realizado com sucesso");
 		} catch (Exception e) {
 			logger.error("Erro ao cadastrar");
@@ -70,39 +72,30 @@ public class OrderController {
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(listOrders);
 	}
 	
-	@GetMapping("/all-client-order")
-	@Operation(summary = "Listar todos os status dos pedidos")
-	@ApiResponse(responseCode = "200", description = "Todos os status dos pedidos listados com sucesso", content = { @Content(mediaType = "application/json",
+	@GetMapping("/queue-orders")
+	@Operation(summary = "Listar todos os pedidos na fila")
+	@ApiResponse(responseCode = "200", description = "Todos os status dos pedidos na fila listados com sucesso", content = { @Content(mediaType = "application/json",
 			array = @ArraySchema( schema = @Schema(implementation = Queue.class)))})
-	public ResponseEntity<List<Queue>> getAllClientOrder(){
-		List<Queue> listClientOrders = queueAdapter.listClientOrders();
+	public ResponseEntity<List<Queue>> getAllClientOrder(@Parameter(description = "Status que deseja remover da lista de pedidos na fila") @RequestParam(required = false) QueueEnums status){
+		List<Queue> listClientOrders = queueAdapter.listClientOrders(status);
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(listClientOrders);
 	}
 	
-	@PutMapping("/move-to-preparing/{jobId}")
-	@Operation(summary = "Mover pedido para cozinha")
-	@ApiResponse(responseCode = "200", description = "Pedido movido para a cozinha com sucesso", content = { @Content(mediaType = "application/json",
-	 schema = @Schema(implementation = String.class)) })
-	public ResponseEntity<String> moveToPreparing(@PathVariable("jobId") Long jobId){
-		queueAdapter.moveToPreparing(jobId);
-		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Em Preparo");
-	}
-	
-	@PutMapping("/completed/{jobId}")
+	@PutMapping("/completed/{idOrder}")
 	@Operation(summary = "Atualizar pedido para Pronto")
 	@ApiResponse(responseCode = "200", description = "Pedido pronto com sucesso", content = { @Content(mediaType = "application/json",
 	 schema = @Schema(implementation = String.class)) })
-	public ResponseEntity<String> completedOrder(@PathVariable("jobId") Long jobId){
-		queueAdapter.kitchenCompletedOrder(jobId);
+	public ResponseEntity<String> completedOrder(@PathVariable("idOrder") Long idOrder){
+		queueAdapter.kitchenCompletedOrder(idOrder);
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Pedido Pronto");
 	}
 	
-	@PutMapping("/withdrawn/{jobId}")
+	@PutMapping("/withdrawn/{idOrder}")
 	@Operation(summary = "Atualizar pedido para Finalizado")
 	@ApiResponse(responseCode = "200", description = "Pedido finalizado com sucesso", content = { @Content(mediaType = "application/json",
 	 schema = @Schema(implementation = String.class)) })
-	public ResponseEntity<String> orderWithdrawn(@PathVariable("jobId") Long jobId){
-		queueAdapter.orderWithdrawn(jobId);
+	public ResponseEntity<String> orderWithdrawn(@PathVariable("idOrder") Long idOrder){
+		queueAdapter.orderWithdrawn(idOrder);
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body("Pedido Finalizado");
 	}
 }

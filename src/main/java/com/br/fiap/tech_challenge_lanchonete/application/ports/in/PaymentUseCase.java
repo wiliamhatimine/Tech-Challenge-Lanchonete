@@ -5,8 +5,7 @@ import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.Payme
 
 public interface PaymentUseCase {
 
-	Payment createPayment(Long idOrder);
-	Payment doPayment(Long idPayment, PaymentStatusEnums paymentStatus);
-	Payment getPayment(Long idPayment);
-	Payment getPaymentByOrderId(Long idOrder);
+	Payment createPayment(Long idOrder, Long idCustomer);
+	Payment changePaymentStatus(Long idPayment, PaymentStatusEnums paymentStatus);
+	Payment getPaymentByCustomerId(Long idCustomer);
 }

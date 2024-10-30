@@ -8,6 +8,7 @@ public class Payment {
 
 	private Long idPayment;
 	private Long idOrder;
+	private Long idCustomer;
 	private PaymentStatusEnums paymentStatus;
 	private LocalDateTime updatedStatus;
 	
@@ -15,10 +16,11 @@ public class Payment {
 		super();
 	}
 	
-	public Payment(Long idPayment, Long idOrder, PaymentStatusEnums paymentStatus, LocalDateTime updatedStatus) {
+	public Payment(Long idPayment, Long idOrder, Long idCustomer, PaymentStatusEnums paymentStatus, LocalDateTime updatedStatus) {
 		super();
 		this.idPayment = idPayment;
 		this.idOrder = idOrder;
+		this.idCustomer = idCustomer;
 		this.paymentStatus = paymentStatus;
 		this.updatedStatus = updatedStatus;
 	}
@@ -34,6 +36,13 @@ public class Payment {
 	public void setIdOrder(Long idOrder) {
 		this.idOrder = idOrder;
 	}
+	public Long getIdCustomer() {
+		return idCustomer;
+	}
+	public void setIdCustomer(Long idCustomer) {
+		this.idCustomer = idCustomer;
+	}
+	
 	public PaymentStatusEnums getPaymentStatus() {
 		return paymentStatus;
 	}

@@ -26,8 +26,24 @@ public class CustomersEntity {
 	
 	@Column(name = "email")
 	private String email;
+	
+	@Column(name = "cpf")
+	private String cpf;
 
-
+	public CustomersEntity(String name, String email, String cpf) {
+		this.name = name;
+		this.email = email;
+		this.cpf = cpf;
+	}
+	
+	public Long getIdCustomer() {
+		return idCustomer;
+	}
+	
+	public void setIdCustomer(Long idCustomer) {
+		this.idCustomer = idCustomer;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -44,8 +60,16 @@ public class CustomersEntity {
 		this.email = email;
 	}
 	
-	public Customer toModel() {
-		return new Customer(name, email);
+	public String getCpf() {
+		return cpf;
+	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public Customer toModel(Long idCustomer) {
+		return new Customer(idCustomer, name, email, cpf);
 	}
 	
 	

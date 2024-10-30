@@ -1,6 +1,7 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Component;
 
@@ -37,8 +38,8 @@ public class QueueAdapter implements QueuePort {
 	}
 
 	@Override
-	public void moveToPreparing(Long jobId) {
-		QueueEntity queueEntity = queueRepository.findById(jobId).get();
+	public void moveToPreparing(Long idOrder) {
+		QueueEntity queueEntity = queueRepository.findByIdOrder(idOrder);
 		queueEntity.setStatus(QueueEnums.EM_PREPARACAO);
 		queueRepository.save(queueEntity);
 	}
@@ -49,22 +50,22 @@ public class QueueAdapter implements QueuePort {
 	}
 
 	@Override
-	public List<Queue> listClientOrders() {
-		return queueRepository.findAll().stream().map(queue -> {
+	public List<Queue> listClientOrders(QueueEnums status) {
+		return queueRepository.findAll().stream().filter(queue -> queue.getStatus() != status).map(queue -> {
 			return queue.toModel();
 		}).toList();
 	}
 
 	@Override
-	public void kitchenCompletedOrder(Long jobId) {
-		QueueEntity queueEntity = queueRepository.findById(jobId).get();
+	public void kitchenCompletedOrder(Long idOrder) {
+		QueueEntity queueEntity = queueRepository.findByIdOrder(idOrder);
 		queueEntity.setStatus(QueueEnums.PRONTO);
 		queueRepository.save(queueEntity);
 	}
 	
 	@Override
-	public void orderWithdrawn(Long jobId) {
-		QueueEntity queueEntity = queueRepository.findById(jobId).get();
+	public void orderWithdrawn(Long idOrder) {
+		QueueEntity queueEntity = queueRepository.findByIdOrder(idOrder);
 		queueEntity.setStatus(QueueEnums.FINALIZADO);
 		queueRepository.save(queueEntity);
 	}

@@ -29,6 +29,9 @@ public class PaymentEntity {
 	@Column(name = "id_order")
 	private Long idOrder;
 	
+	@Column(name = "id_customer")
+	private Long idCustomer;
+	
 	@Column(name = "status")
 	@Enumerated(EnumType.STRING)
 	private PaymentStatusEnums status;
@@ -51,6 +54,14 @@ public class PaymentEntity {
 	public void setIdOrder(Long idOrder) {
 		this.idOrder = idOrder;
 	}
+	
+	public Long getIdCustomer() {
+		return idCustomer;
+	}
+	
+	public void setIdCustomer(Long idCustomer) {
+		this.idCustomer = idCustomer;
+	}
 
 	public PaymentStatusEnums getStatus() {
 		return status;
@@ -69,7 +80,7 @@ public class PaymentEntity {
 	}
 	
 	public Payment toModel() {
-		return new Payment(idPayment, idOrder, status, updatedStatus);
+		return new Payment(idPayment, idOrder, idCustomer, status, updatedStatus);
 	}
 	
 }

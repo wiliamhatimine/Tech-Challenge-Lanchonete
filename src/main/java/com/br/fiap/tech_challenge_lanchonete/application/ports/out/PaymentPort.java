@@ -5,9 +5,8 @@ import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.Payme
 
 public interface PaymentPort {
 
-	Payment createPayment(Long idOrder);
+	Payment createPayment(Long idOrder, Long idCustomer);
 	Payment changePaymentStatus(Long idPayment, PaymentStatusEnums paymentStatus);
-	Payment getPaymentFromIdOrder(Long idOrder);
-	Payment getPayment(Long idPayment);
+	Payment getPaymentByCustomerId(Long customerId);
 	
 }
