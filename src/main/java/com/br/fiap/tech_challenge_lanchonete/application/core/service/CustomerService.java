@@ -1,4 +1,4 @@
-package com.br.fiap.tech_challenge_lanchonete.application.core.domain.service;
+package com.br.fiap.tech_challenge_lanchonete.application.core.service;
 
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Customer;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.in.LoginUseCase;
