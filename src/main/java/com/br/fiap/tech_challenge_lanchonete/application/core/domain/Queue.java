@@ -1,5 +1,6 @@
 package com.br.fiap.tech_challenge_lanchonete.application.core.domain;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.QueueEnums;
@@ -10,15 +11,19 @@ public class Queue {
 	private Long orderId;
 	private List<ProductOrder> products;
 	private QueueEnums status;
+	private LocalDateTime startedAt;
+	private LocalDateTime finishedAt;
 	
 	public Queue() {
 	}
 	
-	public Queue(Long jobId, Long orderId, List<ProductOrder> products, QueueEnums status) {
+	public Queue(Long jobId, Long orderId, List<ProductOrder> products, QueueEnums status, LocalDateTime startedAt, LocalDateTime finishedAt) {
 		this.jobId = jobId;
 		this.orderId = orderId;
 		this.products = products;
 		this.status = status;
+		this.startedAt = startedAt;
+		this.finishedAt = finishedAt;
 	}
 	
 	public Long getJobId() {
@@ -46,7 +51,17 @@ public class Queue {
 	public void setStatus(QueueEnums status) {
 		this.status = status;
 	}
-	
-	
-	
+	public LocalDateTime getStartedAt() {
+		return startedAt;
+	}
+	public void setStartedAt(LocalDateTime startedAt) {
+		this.startedAt = startedAt;
+	}
+	public LocalDateTime getFinishedAt() {
+		return finishedAt;
+	}
+
+	public void setFinishedAt(LocalDateTime finishedAt) {
+		this.finishedAt = finishedAt;
+	}
 }

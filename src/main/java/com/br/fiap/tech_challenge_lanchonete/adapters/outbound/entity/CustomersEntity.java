@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="customers")
-@NoArgsConstructor
 @AllArgsConstructor
 public class CustomersEntity {
 	
@@ -30,6 +29,8 @@ public class CustomersEntity {
 	@Column(name = "cpf")
 	private String cpf;
 
+	public CustomersEntity() {}
+	
 	public CustomersEntity(String name, String email, String cpf) {
 		this.name = name;
 		this.email = email;

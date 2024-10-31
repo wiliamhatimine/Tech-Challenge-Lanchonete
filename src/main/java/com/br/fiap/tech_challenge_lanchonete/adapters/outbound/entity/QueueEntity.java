@@ -1,5 +1,6 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.hibernate.annotations.JdbcTypeCode;
@@ -41,6 +42,12 @@ public class QueueEntity {
 	@Column(name="payload", columnDefinition = "jsonb")
 	private List<ProductOrder> productsName;
 
+	@Column(name="started_at")
+	private LocalDateTime startedAt;
+	
+	@Column(name="finished_at")
+	private LocalDateTime finishedAt;
+	
 	public Long getJobId() {
 		return jobId;
 	}
@@ -74,8 +81,25 @@ public class QueueEntity {
 		this.productsName = productsName;
 	}
 	
+	public LocalDateTime getStartedAt() {
+		return startedAt;
+	}
+
+	public void setStartedAt(LocalDateTime startedAt) {
+		this.startedAt = startedAt;
+	}
+	
+
+	public LocalDateTime getFinishedAt() {
+		return finishedAt;
+	}
+
+	public void setFinishedAt(LocalDateTime finishedAt) {
+		this.finishedAt = finishedAt;
+	}
+
 	public Queue toModel() {
-		return new Queue(jobId, idOrder, productsName, status);
+		return new Queue(jobId, idOrder, productsName, status, startedAt, finishedAt);
 	}
 	
 	

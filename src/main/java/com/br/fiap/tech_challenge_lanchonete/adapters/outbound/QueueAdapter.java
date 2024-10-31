@@ -1,5 +1,6 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,6 +35,7 @@ public class QueueAdapter implements QueuePort {
 		queueEntity.setIdOrder(orderId);
 		queueEntity.setProductsName(listNames);
 		queueEntity.setStatus(QueueEnums.RECEBIDO);
+		queueEntity.setStartedAt(LocalDateTime.now());
 		return queueRepository.save(queueEntity).getJobId();
 	}
 
@@ -67,6 +69,7 @@ public class QueueAdapter implements QueuePort {
 	public void orderWithdrawn(Long idOrder) {
 		QueueEntity queueEntity = queueRepository.findByIdOrder(idOrder);
 		queueEntity.setStatus(QueueEnums.FINALIZADO);
+		queueEntity.setFinishedAt(LocalDateTime.now());
 		queueRepository.save(queueEntity);
 	}
 
