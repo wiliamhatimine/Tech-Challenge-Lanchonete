@@ -44,11 +44,11 @@ public class OrderController {
 	@Autowired private QueueAdapter queueAdapter;
 	@Autowired private PaymentAdapter paymentAdapter;
 
-	@PostMapping("/create/{idCustomer}")
+	@PostMapping("/create")
 	@Operation(summary = "Criar pedido")
 	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso", content = { @Content(mediaType = "application/json",
 	 schema = @Schema(implementation = Order.class)) })
-	public ResponseEntity<Order> createOrder(@PathVariable("idCustomer") Long idCustomer,
+	public ResponseEntity<Order> createOrder(@RequestParam(required = false) Long idCustomer,
 			@RequestBody List<ProductOrder> products) {
 		Order order = new Order();
 		try {
