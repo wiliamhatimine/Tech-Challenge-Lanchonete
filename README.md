@@ -15,3 +15,100 @@ docker-compose up
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
+
+## Fluxo de navegação
+### Cliente
+Para o cliente se identificar por CPF ou realizar cadastro com nome e e-mail.
+
+```
+/customers/api/v1/create
+```
+Response:
+```
+{
+  "idCustomer": 0,
+  "name": "string",
+  "email": "string",
+  "cpf": "string"
+}
+```
+
+### Produtos
+Cliente seleciona os produtos para montagem do combo com as seguintes categorias:
+ - LANCHE
+ - ACOMPANHAMENTO
+ - BEBIDA
+ - SOBREMESA
+
+A visualização dos produtos é feita por categoria como parametro:
+```
+/products/api/v1/get-by-categorie/{categorie}
+``` 
+Response:
+```
+[
+  {
+    "idProduct": 0,
+    "name": "string",
+    "categorie": "LANCHE",
+    "price": 0,
+    "description": "string",
+    "image": "string"
+  }
+]
+```
+
+### Pedido
+Criação do pedido com o combo de produtos selecionado previamente.
+
+*Caso o cliente não queira se identificar não será necessário utilizar o parametro idCustomer.
+```
+/order/api/v1/create
+```
+Response:
+```
+{
+  "idOrder": 0,
+  "customer": 0,
+  "total": 0,
+  "products": [
+    {
+      "idProduct": 0,
+      "price": 0,
+      "name": "string",
+      "quantity": 0
+    }
+  ]
+}
+```
+### Pagamento
+Após o pedido gerado deverá ser feito o pagamento. 
+```
+/payment/api/v1/pay-order/{idOrder}
+```
+Response:
+```
+{
+  "idPayment": 0,
+  "idOrder": 0,
+  "idCustomer": 0,
+  "paymentStatus": "PAGO",
+  "updatedStatus": "2024-11-01T04:07:42.303Z"
+}
+```
+
+### FILA
+
+Após o pagamento confirmado o pedido é RECEBIDO na cozinha.
+
+Quando o pedido é iniciado o pedido é alterado para EM PREPARAÇÃO.
+
+Assim que a cozinha termina, o pedido é alterado para PRONTO para retirada.
+```
+/order/api/v1/completed/{idOrder}
+```
+
+Quando ocorre a retirada do pedido pelo cliente o pedido é alterado para FINALIZADO
+```
+/order/api/v1/withdrawn/{idOrder}
+```
