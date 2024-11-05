@@ -2,6 +2,8 @@ package com.br.fiap.tech_challenge_lanchonete.application.core.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.in.ManagerProductsUseCase;
 import com.br.fiap.tech_challenge_lanchonete.application.ports.out.ProductPort;
@@ -14,7 +16,7 @@ public class ProductsService implements ManagerProductsUseCase{
 	public Product save(Product product) {
 		return productPort.save(product);
 	}
-
+	
 	@Override
 	public Product edit(Product product) {
 		return productPort.edit(product);

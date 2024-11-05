@@ -34,12 +34,12 @@ public class PaymentController {
 	private PaymentAdapter paymentAdapter;
 	@Autowired private QueueAdapter queueAdapter;
 	
-	@GetMapping("/get-payment/{idCustomer}")
+	@GetMapping("/get-payment/{idOrder}")
 	@ApiResponse(responseCode = "200", description = "Pagamento obtido com sucesso", content = { @Content(mediaType = "application/json",
     schema = @Schema(implementation = Payment.class)) })
 	@Operation(summary = "Obter pedido pelo codigo do cliente")
-	public ResponseEntity<Payment> getPayment(@PathVariable("idCustomer") Long idCustomer){
-		Payment payment = paymentAdapter.getPaymentByCustomerId(idCustomer);
+	public ResponseEntity<Payment> getPayment(@PathVariable("idOrder") Long idOrder){
+		Payment payment = paymentAdapter.getPaymentByOrderId(idOrder);
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(payment);
 	}
 	
@@ -50,7 +50,7 @@ public class PaymentController {
 	public ResponseEntity<Payment> payOrder(@PathVariable("idOrder") Long idOrder){
 		Payment payment = paymentAdapter.changePaymentStatus(idOrder, PaymentStatusEnums.PAGO);
 		Queue queue = queueAdapter.checkOrderStatus(payment.getIdOrder());
-		if(paymentAdapter.getPaymentByCustomerId(payment.getIdCustomer()).getPaymentStatus() == PaymentStatusEnums.PAGO) {
+		if(paymentAdapter.getPaymentByOrderId(idOrder).getPaymentStatus() == PaymentStatusEnums.PAGO) {
 			queueAdapter.moveToPreparing(queue.getOrderId());
 		}
 		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(payment);

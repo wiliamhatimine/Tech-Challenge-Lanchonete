@@ -49,7 +49,7 @@ public class CustomersController {
 	}
 	
 	@GetMapping("/all-customers")
-	@ApiResponse(responseCode = "201", description = "Lista de clientes retornado com sucesso", content = { @Content(mediaType = "application/json",
+	@ApiResponse(responseCode = "200", description = "Lista de clientes retornado com sucesso", content = { @Content(mediaType = "application/json",
 			array = @ArraySchema( schema = @Schema(implementation = Customer.class)) )})
 	@Operation(summary = "Listagem de clientes")
 	public ResponseEntity<List<Customer>> getAllCustomers(){
@@ -60,6 +60,6 @@ public class CustomersController {
 			logger.error("Ocorreu um erro ao listar os clientes");
 			throw e;
 		}
-		return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(listCustomers);
+		return ResponseEntity.status(HttpStatusCode.valueOf(200)).body(listCustomers);
 	}
 }

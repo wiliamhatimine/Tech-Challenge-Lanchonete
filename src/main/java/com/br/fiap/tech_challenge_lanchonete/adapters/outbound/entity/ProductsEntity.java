@@ -1,7 +1,13 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity;
 
+import java.io.IOException;
+import java.util.Objects;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.CategorieEnums;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +16,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -38,7 +46,7 @@ public class ProductsEntity {
 	private String description;
 	
 	@Column(name = "image")
-	private byte image;
+	private String image;
 
 	public Long getIdProduct() {
 		return idProduct;
@@ -79,16 +87,17 @@ public class ProductsEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public byte getImage() {
+	
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(byte image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
-	
+
 	public Product toModel() {
 		return new Product(idProduct, name, categorie, price, description, image);
 	}
+	
 }

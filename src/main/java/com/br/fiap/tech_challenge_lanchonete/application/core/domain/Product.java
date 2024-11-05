@@ -9,12 +9,12 @@ public class Product {
 	private CategorieEnums categorie;
 	private Double price;
 	private String description;
-	private byte image;
+	private String image;
 	
 	public Product() {
 	}
 	
-	public Product(Long idProduct, String name, CategorieEnums categorie, Double price, String description, byte image) {
+	public Product(Long idProduct, String name, CategorieEnums categorie, Double price, String description, String image) {
 		this.idProduct = idProduct;
 		this.name = name;
 		this.categorie = categorie;
@@ -55,10 +55,10 @@ public class Product {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public byte getImage() {
+	public String getImage() {
 		return image;
 	}
-	public void setImage(byte image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 }

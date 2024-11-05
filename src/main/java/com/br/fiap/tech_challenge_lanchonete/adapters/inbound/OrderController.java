@@ -1,6 +1,7 @@
 package com.br.fiap.tech_challenge_lanchonete.adapters.inbound;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 import org.slf4j.Logger;
@@ -19,8 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.OrdersAdapter;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.PaymentAdapter;
+import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.ProductsAdapter;
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.QueueAdapter;
+import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.exceptions.ExceptionResponse;
+import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.exceptions.ProductNotFoundException;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Order;
+import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.ProductOrder;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Queue;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.enums.QueueEnums;
@@ -43,22 +48,35 @@ public class OrderController {
 	@Autowired private OrdersAdapter ordersAdapter;
 	@Autowired private QueueAdapter queueAdapter;
 	@Autowired private PaymentAdapter paymentAdapter;
+	@Autowired private ProductsAdapter productsAdapter;
 
 	@PostMapping("/create")
 	@Operation(summary = "Criar pedido")
 	@ApiResponse(responseCode = "200", description = "Pedido criado com sucesso", content = { @Content(mediaType = "application/json",
 	 schema = @Schema(implementation = Order.class)) })
+	@ApiResponse(responseCode = "404", description = "Lista de produtos inválida", content = { @Content(mediaType = "application/json",
+	 schema = @Schema(implementation = ExceptionResponse.class)) })
 	public ResponseEntity<Order> createOrder(@RequestParam(required = false) Long idCustomer,
-			@RequestBody List<ProductOrder> products) {
+			@RequestBody List<ProductOrder> products) throws Exception {
 		Order order = new Order();
 		try {
-			order = ordersAdapter.saveOrder(Objects.nonNull(idCustomer) ? idCustomer : null, products);
-			queueAdapter.clientMakeOrder(order.getIdOrder());
-			paymentAdapter.createPayment(order.getIdOrder(), idCustomer);
-			logger.info("Pedido realizado com sucesso");
-		} catch (Exception e) {
+			products = products.stream().map(productOrder -> {
+				Product prod = productsAdapter.getAllProducts().stream()
+				.filter(
+						product -> Objects.equals(product.getIdProduct(), productOrder.getIdProduct()))
+				.findAny()
+				.get();
+				return new ProductOrder(prod.getIdProduct(),prod.getPrice(), prod.getName(), productOrder.getQuantity());
+			}).toList();
+			if(!products.isEmpty()) {
+				order = ordersAdapter.saveOrder(Objects.nonNull(idCustomer) ? idCustomer : null, products);
+					queueAdapter.clientMakeOrder(order.getIdOrder());
+					paymentAdapter.createPayment(order.getIdOrder(), idCustomer);
+					logger.info("Pedido realizado com sucesso");
+			}
+		} catch (NoSuchElementException e) {
 			logger.error("Erro ao cadastrar");
-			throw e;
+			throw new ProductNotFoundException("Lista de produtos inválida !");
 		}
 		return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(order);
 	}

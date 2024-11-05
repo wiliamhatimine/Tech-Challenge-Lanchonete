@@ -8,5 +8,6 @@ public interface PaymentPort {
 	Payment createPayment(Long idOrder, Long idCustomer);
 	Payment changePaymentStatus(Long idPayment, PaymentStatusEnums paymentStatus);
 	Payment getPaymentByCustomerId(Long customerId);
+	Payment getPaymentByOrderId(Long orderId);
 	
 }

@@ -2,6 +2,8 @@ package com.br.fiap.tech_challenge_lanchonete.adapters.outbound;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.entity.ProductsEntity;
@@ -13,6 +15,8 @@ import com.br.fiap.tech_challenge_lanchonete.application.ports.out.ProductPort;
 @Component
 public class ProductsAdapter implements ProductPort {
 
+	Logger logger = LoggerFactory.getLogger(ProductsAdapter.class);
+	
 	private ProductsRepository productsRepository;
 	
 	public ProductsAdapter(ProductsRepository productsRepository) {
@@ -51,6 +55,13 @@ public class ProductsAdapter implements ProductPort {
 	public List<Product> productByCategorie(String categorie) {
 			List<ProductsEntity> listProducts = productsRepository.findByCategorie(CategorieEnums.valueOf(categorie));
 		return listProducts.stream().map(product ->{
+			return product.toModel();
+		}).toList();
+	}
+
+	@Override
+	public List<Product> getAllProducts() {
+		return productsRepository.findAll().stream().map(product ->{ 
 			return product.toModel();
 		}).toList();
 	}

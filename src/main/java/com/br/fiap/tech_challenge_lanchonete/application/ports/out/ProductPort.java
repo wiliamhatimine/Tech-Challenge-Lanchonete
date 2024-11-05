@@ -9,4 +9,5 @@ public interface ProductPort {
 	Product edit(Product product);
 	void delete(Long productId);
 	List<Product> productByCategorie(String categorie);
+	List<Product> getAllProducts();
 }

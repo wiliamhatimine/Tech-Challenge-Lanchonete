@@ -45,4 +45,9 @@ public class PaymentAdapter implements PaymentPort{
 	public Payment getPaymentByCustomerId(Long customerId) {
 		return paymentRepository.findById(customerId).get().toModel();
 	}
+
+	@Override
+	public Payment getPaymentByOrderId(Long orderId) {
+		return paymentRepository.findByIdOrder(orderId).toModel();
+	}
 }

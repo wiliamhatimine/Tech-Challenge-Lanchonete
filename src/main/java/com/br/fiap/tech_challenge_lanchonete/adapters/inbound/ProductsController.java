@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.br.fiap.tech_challenge_lanchonete.adapters.outbound.ProductsAdapter;
-import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Order;
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 
 import io.swagger.v3.oas.annotations.Operation;

@@ -2,6 +2,8 @@ package com.br.fiap.tech_challenge_lanchonete.application.ports.in;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.br.fiap.tech_challenge_lanchonete.application.core.domain.Product;
 
 public interface ManagerProductsUseCase {

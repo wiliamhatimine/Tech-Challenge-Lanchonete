@@ -12,7 +12,7 @@ RUN mvn clean package -DskipTests=true
 
 
 
-FROM openjdk:21-jdk
+FROM openjdk:21-jdk-slim
 
 RUN mkdir /app
 
