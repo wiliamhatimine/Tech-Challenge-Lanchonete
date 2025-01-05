@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fiap-lanchonete
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fiap-lanchonete
+  template:
+    metadata:
+      labels:
+        app: fiap-lanchonete
+    spec:
+      containers:
+      - name: fiap-lanchonete
+        image: fiap-lanchonete:latest
+        ports:
+        - containerPort: 8080
